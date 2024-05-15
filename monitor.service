@@ -32,7 +32,7 @@ ExecStart=/usr/bin/podman run \
   --env RMM_RESTART_BUTTON=false \
   --env RMM_SHUTDOWN_BUTTON=false \
   --env RMM_USED_SPACE=false \
-  ghcr.io/2m/rpi-mqtt-monitor:main
+  ghcr.io/olliewalsh/rpi-mqtt-monitor:main
 
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-monitor.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore --force --cidfile %t/container-monitor.ctr-id
