@@ -1,0 +1,42 @@
+[Unit]
+Description=RPi MQTT Monitor
+Documentation=man:podman-generate-systemd(1)
+Wants=network.target
+After=network-online.target NetworkManager.service
+StartLimitInterval=120
+StartLimitBurst=10
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=15s
+TimeoutStartSec=1h
+TimeoutStopSec=120s
+
+ExecStartPre=/bin/rm -f %t/container-monitor.pid %t/container-monitor.ctr-id
+
+ExecStart=/usr/bin/podman run \
+  --conmon-pidfile %t/container-monitor.pid --cidfile %t/container-monitor.ctr-id \
+  --cgroups=no-conmon \
+  --replace --detach --tty \
+  --privileged \
+  --net=host \
+  --name monitor \
+  --env RMM_MQTT_HOST=localhost \
+  --env RMM_MQTT_TOPIC_PREFIX=monitor \
+  --env RMM_UPDATE=false \
+  --env RMM_GIT_UPDATE=false \
+  --env RMM_SERVICE_SLEEP_TIME=5 \
+  --env RMM_SYS_CLOCK_SPEED=true \
+  --env RMM_WIFI_SIGNAL_DBM=true \
+  --env RMM_RESTART_BUTTON=false \
+  --env RMM_SHUTDOWN_BUTTON=false \
+  --env RMM_USED_SPACE=false \
+  ghcr.io/2m/rpi-mqtt-monitor:main
+
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-monitor.ctr-id -t 10
+ExecStopPost=/usr/bin/podman rm --ignore --force --cidfile %t/container-monitor.ctr-id
+PIDFile=%t/container-monitor.pid
+
+[Install]
+WantedBy=multi-user.target default.target
