@@ -1,5 +1,8 @@
 FROM python:3.12
 
+RUN apt-get update && apt-get install -y wireless-tools \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN git clone https://github.com/hjelev/rpi-mqtt-monitor.git /app
 
 WORKDIR /app
