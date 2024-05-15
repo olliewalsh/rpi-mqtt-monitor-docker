@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    types:
+    - opened
+    - synchronize
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v3
+    - uses: extractions/setup-just@v1
+
+    - name: yaml-lint
+      uses: ibiqlik/action-yamllint@v3
+
+    - run: just docker-build
