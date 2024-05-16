@@ -31,7 +31,7 @@ ExecStart=/usr/bin/podman run \
   --env RMM_WIFI_SIGNAL_DBM=true \
   --env RMM_RESTART_BUTTON=false \
   --env RMM_SHUTDOWN_BUTTON=false \
-  --env RMM_USED_SPACE=false \
+  --env RMM_USED_SPACE=true \
   ghcr.io/olliewalsh/rpi-mqtt-monitor:main
 
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-monitor.ctr-id -t 10
