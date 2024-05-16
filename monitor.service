@@ -29,6 +29,7 @@ ExecStart=/usr/bin/podman run \
   --env RMM_SERVICE_SLEEP_TIME=5 \
   --env RMM_SYS_CLOCK_SPEED=true \
   --env RMM_WIFI_SIGNAL_DBM=true \
+  --env RMM_WIFI_SIGNAL=false \
   --env RMM_RESTART_BUTTON=false \
   --env RMM_SHUTDOWN_BUTTON=false \
   --env RMM_USED_SPACE=true \
