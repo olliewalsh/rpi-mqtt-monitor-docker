@@ -3,7 +3,7 @@ FROM python:3.12
 RUN apt-get update && apt-get install -y wireless-tools \
   && rm -rf /var/lib/apt/lists/*
 
-RUN true && true && git clone https://github.com/olliewalsh/rpi-mqtt-monitor.git /app
+RUN git clone https://github.com/olliewalsh/rpi-mqtt-monitor.git /app
 
 WORKDIR /app
 RUN pip install -r requirements.txt
